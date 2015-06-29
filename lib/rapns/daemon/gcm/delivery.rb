@@ -172,7 +172,7 @@ module Rapns
         end
 
         def retry_message
-          "Notification #{@notification.id} will be retried after #{@notification.deliver_after.strftime("%Y-%m-%d %H:%M:%S")} (retry #{@notification.retries})."
+          "Notification #{@notification.id} will be retried after #{@notification.deliver_after.try(:strftime, "%Y-%m-%d %H:%M:%S")} (retry #{@notification.retries})."
         end
 
         def do_post
