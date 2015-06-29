@@ -37,6 +37,8 @@ module Rapns
             unauthorized(response)
           when 500
             internal_server_error(response)
+          when 502
+            bad_gateway(response)
           when 503
             service_unavailable(response)
           else
@@ -108,6 +110,11 @@ module Rapns
         def internal_server_error(response)
           retry_delivery(@notification, response)
           Rapns.logger.warn("GCM responded with an Internal Error. " + retry_message)
+        end
+
+        def bad_gateway(response)
+          retry_delivery(@notification, response)
+          Rapns.logger.warn("GCM responded with a Bad Gateway Error. " + retry_message)
         end
 
         def service_unavailable(response)
